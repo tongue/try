@@ -36,8 +36,14 @@
 		class:third_shake={state.third.hit}
 		use:hitbox
 		on:hitbox={handle_hitbox('third')}
-		style={`--progress: ${1 - state.third.progress}`}>🐶</button
+		style={`--progress: ${1 - state.third.progress}`}
 	>
+		{#if state.third.progress === 1}
+			💩
+		{:else}
+			🐶
+		{/if}
+	</button>
 </div>
 
 <style>
@@ -109,25 +115,20 @@
 	}
 
 	@keyframes shake {
-		0%,
+		0% {
+			transform: translate(0, 0) rotate(0deg);
+		}
+		25% {
+			transform: translate(5px, 5px) rotate(5deg);
+		}
+		50% {
+			transform: translate(0, 0) rotate(0eg);
+		}
+		75% {
+			transform: translate(-5px, 5px) rotate(-5deg);
+		}
 		100% {
-			transform: translate3d(-1px, 0, 0);
-		}
-
-		20%,
-		80% {
-			transform: translate3d(2px, 0, 0);
-		}
-
-		30%,
-		50%,
-		70% {
-			transform: translate3d(-4px, 0, 0);
-		}
-
-		40%,
-		60% {
-			transform: translate3d(4px, 0, 0);
+			transform: translate(0, 0) rotate(0deg);
 		}
 	}
 </style>
