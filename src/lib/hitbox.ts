@@ -53,20 +53,15 @@ export function hitbox(node: HTMLElement, user_options?: HitBoxOptions) {
 	};
 
 	const track_mouse = (should_track_mouse: boolean) => {
-		if (should_track_mouse) {
-			window.addEventListener('mousemove', on_mouse_move);
-		} else {
-			window.removeEventListener('mousemove', on_mouse_move);
-		}
+		if (should_track_mouse) window.addEventListener('mousemove', on_mouse_move);
+		else window.removeEventListener('mousemove', on_mouse_move);
 	};
 
 	const on_intersect = (entries: IntersectionObserverEntry[]) =>
 		entries.forEach((entry) => track_mouse(entry.isIntersecting));
 
 	const connect_observer = () => {
-		if (observer) {
-			observer.disconnect();
-		}
+		if (observer) observer.disconnect();
 
 		observer = new IntersectionObserver(on_intersect, {
 			root: options.root,
