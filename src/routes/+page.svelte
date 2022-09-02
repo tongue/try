@@ -12,48 +12,39 @@
 	};
 </script>
 
-<main>
-	<div>
-		<button
-			class="first"
-			use:hitbox
-			on:hitbox={handle_hitbox('first')}
-			style={`--progress: ${state.first}`}>Touch me</button
-		>
-		<button class="second" use:hitbox on:hitbox={handle_hitbox('second')}>
-			<span class:hidden={!(state.second < 0)}>😭</span>
-			<span class:hidden={!(state.second > 0 && state.second < 0.25)}>😔</span>
-			<span class:hidden={!(state.second >= 0.25 && state.second < 0.5)}>😐</span>
-			<span class:hidden={!(state.second >= 0.5 && state.second < 0.75)}>😊</span>
-			<span class:hidden={!(state.second >= 0.75 && state.second < 1)}>🤣</span>
-			<span class:hidden={!(state.second === 1)}>😍</span>
-		</button>
-	</div>
-</main>
+<div>
+	<button
+		class="first"
+		use:hitbox
+		on:hitbox={handle_hitbox('first')}
+		style={`--progress: ${state.first}`}>Touch me</button
+	>
+	<button class="second" use:hitbox on:hitbox={handle_hitbox('second')}>
+		<span class:hidden={!(state.second < 0)}>😭</span>
+		<span class:hidden={!(state.second > 0 && state.second < 0.25)}>😔</span>
+		<span class:hidden={!(state.second >= 0.25 && state.second < 0.5)}>😐</span>
+		<span class:hidden={!(state.second >= 0.5 && state.second < 0.75)}>😊</span>
+		<span class:hidden={!(state.second >= 0.75 && state.second < 1)}>🤣</span>
+		<span class:hidden={!(state.second === 1)}>😍</span>
+	</button>
+</div>
 
 <style>
 	:global(body) {
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		font-family: sans-serif;
 		background-color: #000;
+		padding-top: 250vh;
+		padding-bottom: 10em;
 	}
 
-	main,
 	div,
 	button {
 		display: flex;
 	}
 
-	main {
-		flex-direction: column;
-		justify-content: flex-end;
-		align-items: center;
-		min-height: 250vh;
-		padding-bottom: 10em;
-	}
-
 	div {
+		margin: 0 auto;
 		justify-content: space-between;
-		min-width: 50%;
 		max-width: 80%;
 	}
 
@@ -68,7 +59,7 @@
 
 	.first {
 		--progress: 0;
-		border: 1px solid hotpink;
+		border: 2px solid hotpink;
 		background-color: transparent;
 		color: hotpink;
 		outline: calc(5px * var(--progress)) solid hotpink;
