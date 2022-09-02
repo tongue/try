@@ -3,12 +3,15 @@
 	import { hitbox } from '$lib/hitbox';
 
 	let state = {
-		first: -1,
-		second: -1
+		first: { progress: -1, hit: false },
+		second: { progress: -1, hit: false },
+		third: { progress: -1, hit: false }
 	};
 
+	const within = (value: number, min: number, max: number) => value >= min && value < max;
+
 	const handle_hitbox = (id: string) => (event: HitBoxEvent) => {
-		state = { ...state, [id]: event.detail.progress };
+		state = { ...state, [id]: event.detail };
 		console.log(event.detail);
 	};
 </script>
@@ -18,22 +21,29 @@
 		class="first"
 		use:hitbox
 		on:hitbox={handle_hitbox('first')}
-		style={`--progress: ${state.first}`}>Touch me</button
+		style={`--progress: ${state.first.progress}`}>Touch me</button
 	>
 	<button class="second" use:hitbox on:hitbox={handle_hitbox('second')}>
-		<span class:hidden={!(state.second < 0)}>😭</span>
-		<span class:hidden={!(state.second > 0 && state.second < 0.25)}>😔</span>
-		<span class:hidden={!(state.second >= 0.25 && state.second < 0.5)}>😐</span>
-		<span class:hidden={!(state.second >= 0.5 && state.second < 0.75)}>😊</span>
-		<span class:hidden={!(state.second >= 0.75 && state.second < 1)}>🤣</span>
-		<span class:hidden={!(state.second === 1)}>😍</span>
+		<span class:hidden={!(state.second.progress < 0)}>😭</span>
+		<span class:hidden={!within(state.second.progress, 0, 0.25)}>😔</span>
+		<span class:hidden={!within(state.second.progress, 0.25, 0.5)}>😐</span>
+		<span class:hidden={!within(state.second.progress, 0.5, 0.75)}>😊</span>
+		<span class:hidden={!within(state.second.progress, 0.75, 1)}>🤣</span>
+		<span class:hidden={!(state.second.progress === 1)}>😍</span>
 	</button>
+	<button
+		class="third"
+		class:third_shake={state.third.hit}
+		use:hitbox
+		on:hitbox={handle_hitbox('third')}
+		style={`--progress: ${1 - state.third.progress}`}>🐶</button
+	>
 </div>
 
 <style>
 	:global(body) {
 		font-family: sans-serif;
-		background-color: #000;
+		background-color: black;
 		padding-top: 250vh;
 		padding-bottom: 10em;
 	}
@@ -56,6 +66,8 @@
 		border-radius: 0.25em;
 		cursor: pointer;
 		text-transform: uppercase;
+		font-weight: bold;
+		border: 0;
 	}
 
 	.first {
@@ -63,14 +75,12 @@
 		border: 2px solid hotpink;
 		background-color: transparent;
 		color: hotpink;
-		outline: calc(5px * var(--progress)) solid hotpink;
 		box-shadow: 0px 0px calc(50px * var(--progress)) hotpink,
 			0px 0px calc(50px * var(--progress)) hotpink;
 	}
 
 	.second {
-		border: 0;
-		background-color: yellow;
+		background-color: springgreen;
 		position: relative;
 		min-width: 3em;
 		font-size: 3em;
@@ -87,5 +97,37 @@
 
 	button > span.hidden {
 		opacity: 0;
+	}
+
+	.third {
+		background-color: goldenrod;
+		font-size: 3em;
+	}
+
+	.third_shake {
+		animation: shake calc(1000ms * var(--progress)) infinite;
+	}
+
+	@keyframes shake {
+		0%,
+		100% {
+			transform: translate3d(-1px, 0, 0);
+		}
+
+		20%,
+		80% {
+			transform: translate3d(2px, 0, 0);
+		}
+
+		30%,
+		50%,
+		70% {
+			transform: translate3d(-4px, 0, 0);
+		}
+
+		40%,
+		60% {
+			transform: translate3d(4px, 0, 0);
+		}
 	}
 </style>
