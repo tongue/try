@@ -1,13 +1,14 @@
 <script lang="ts">
 	import type { HitBoxEvent } from '$lib/types';
 	import { hitbox } from '$lib/hitbox';
+
 	let state = {
 		first: -1,
 		second: -1
 	};
 
 	const handle_hitbox = (id: string) => (event: HitBoxEvent) => {
-		state = { ...state, [id]: Math.round(event.detail.progress * 100) / 100 };
+		state = { ...state, [id]: event.detail.progress };
 		console.log(event.detail);
 	};
 </script>
